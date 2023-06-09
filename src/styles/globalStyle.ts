@@ -136,7 +136,7 @@ const GlobalStyle = createGlobalStyle`
 
     @font-face {
       font-family: 'GT';
-      src: local("GT-America"),url("src/fonts/GT-America-Standard-Light.woff") format("woff");
+      src: local("GT-America"),url("/fonts/GT-America-Standard-Light.woff") format("woff");
       font-display: swap;
       text-rendering: optimizeSpeed;
     }
