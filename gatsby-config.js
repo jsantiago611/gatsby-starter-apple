@@ -48,19 +48,7 @@ const devPlugins = [
     resolve: "gatsby-plugin-alias-imports",
     options: {
       alias: {
-        Src: "src",
-        Components: "src/components",
-        Constants: "src/constants",
-        Hooks: "src/hooks",
-        Images: "src/images",
-        Layouts: "src/layouts",
-        Pages: "src/pages",
-        Posts: "src/posts",
-        Stores: "src/stores",
-        Styles: "src/styles",
-        Templates: "src/templates",
-        Types: "src/types",
-        Utils: "src/utils",
+        "~": ".",
       },
       extensions: ["js", "ts", "tsx"],
     },
@@ -97,7 +85,7 @@ const markdownPlugins = [
                 "body[data-theme=dark]": "Dark Github",
               },
             },
-            extensions: ["vscode-theme-github-light", "dark-theme-github"],
+            extensions: ["vscode-theme-github-light", "dark-github-theme"],
           },
         },
         {
@@ -146,7 +134,7 @@ const searchPlugins = [
             {
               allMarkdownRemark(
                 filter: { fileAbsolutePath: { regex: "/(posts/blog)/" } }
-                sort: { order: DESC, fields: [frontmatter___date] },
+                sort: { frontmatter: { date: DESC } }
               ) {
                 edges {
                   node {
@@ -192,6 +180,7 @@ const pwaPlugins = [
 ]
 
 module.exports = {
+  graphqlTypegen: true,
   siteMetadata,
   plugins: [
     ...corePlugins,

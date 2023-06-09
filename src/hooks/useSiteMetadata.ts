@@ -1,9 +1,8 @@
-import { useStaticQuery, graphql } from "gatsby"
-import type { SiteSiteMetadata } from "Types/GraphQL"
+import { graphql, useStaticQuery } from "gatsby"
 
 interface SiteMetaData {
   site: {
-    siteMetadata: SiteSiteMetadata
+    siteMetadata: Queries.SiteSiteMetadata
   }
 }
 

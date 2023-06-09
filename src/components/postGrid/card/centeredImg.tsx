@@ -1,11 +1,11 @@
 import React, { useMemo } from "react"
-import styled from "styled-components"
+
 import { graphql, useStaticQuery } from "gatsby"
 import { GatsbyImage } from "gatsby-plugin-image"
 import type { IGatsbyImageData } from "gatsby-plugin-image"
+import styled from "styled-components"
 
-import type { Query } from "Types/GraphQL"
-import type Post from "Types/Post"
+import type Post from "~/src/types/Post"
 
 interface CenteredImgProps extends Pick<Post, "alt"> {
   src: Post["thumbnail"]
@@ -14,8 +14,8 @@ interface CenteredImgProps extends Pick<Post, "alt"> {
 const DEFAULT_ALT = "Thumbnail Image"
 
 const CenteredImg: React.FC<CenteredImgProps> = ({ src, alt }) => {
-  const data = useStaticQuery<Query>(graphql`
-    query {
+  const data = useStaticQuery<Queries.Query>(graphql`
+    query CenteredImg {
       allImageSharp {
         edges {
           node {

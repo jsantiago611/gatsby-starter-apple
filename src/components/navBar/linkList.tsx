@@ -1,13 +1,14 @@
 import React from "react"
-import { isNil } from "lodash"
-import { Link } from "gatsby"
 
-import type { SiteSiteMetadataMenuLinks } from "Types/GraphQL"
-import type { UseSiteMetaDataReturnType } from "Hooks/useSiteMetadata"
+import { Link } from "gatsby"
+import { isNil } from "lodash"
+
+import type { UseSiteMetaDataReturnType } from "~/src/hooks/useSiteMetadata"
+
 import type { UseMenuReturnType } from "./useMenu"
 
 const ROOT = "/"
-const EXTENRAL_LINK_EXP =
+const EXTERNAL_LINK_EXP =
   /(https?:\/\/)?[\w\-~]+(\.[\w\-~]+)+(\/[\w\-~@:%]*)*(#[\w-]*)?(\?[^\s]*)?/gi
 
 interface LinkListProps extends Pick<UseMenuReturnType, "setToggle"> {
@@ -15,14 +16,14 @@ interface LinkListProps extends Pick<UseMenuReturnType, "setToggle"> {
 }
 
 const LinkList: React.FC<LinkListProps> = ({ links, setToggle }) => {
-  const generateLink = (props: SiteSiteMetadataMenuLinks | null) => {
+  const generateLink = (props: Queries.SiteSiteMetadataMenuLinks | null) => {
     if (isNil(props)) {
       return
     }
 
     const { link, name } = props
     const safeLink = isNil(link) ? "" : link
-    const isExternalLink = EXTENRAL_LINK_EXP.test(safeLink)
+    const isExternalLink = EXTERNAL_LINK_EXP.test(safeLink)
     if (safeLink === ROOT) {
       return (
         <li key={name}>

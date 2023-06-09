@@ -1,30 +1,29 @@
 import React from "react"
-import { graphql } from "gatsby"
+
+import { type PageProps, graphql } from "gatsby"
 import styled from "styled-components"
 
-import type { Query } from "Types/GraphQL"
-import Layout from "Layouts/layout"
-import SEO from "Components/seo"
-import Comment from "Components/comment"
-import { rhythm } from "Styles/typography"
-import Category from "Styles/category"
-import DateTime from "Styles/dateTime"
-import Markdown from "Styles/markdown"
+import Comment from "~/src/components/comment"
+import SEO from "~/src/components/seo"
+import Layout from "~/src/layouts/layout"
+import Category from "~/src/styles/category"
+import DateTime from "~/src/styles/dateTime"
+import Markdown from "~/src/styles/markdown"
+import { rhythm } from "~/src/styles/typography"
 
-interface BlogPostProps {
-  data: Query
-}
-
-const BlogPost: React.FC<BlogPostProps> = ({ data }) => {
+const BlogPost: React.FC<PageProps<Queries.Query>> = ({ data }) => {
   const { markdownRemark } = data
   const { frontmatter, html } = markdownRemark!
   const { title, desc, thumbnail, date, category } = frontmatter!
 
-  const ogImagePath = thumbnail && thumbnail?.childImageSharp?.gatsbyImageData?.src
+  const ogImagePath =
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    thumbnail &&
+    thumbnail?.childImageSharp?.gatsbyImageData!.images!.fallback!.src
 
   return (
     <Layout>
-      <SEO title={title} desc={desc} image={ogImagePath!} />
+      <SEO title={title} desc={desc} image={ogImagePath} />
       <main>
         <article>
           <OuterWrapper>
@@ -33,7 +32,7 @@ const BlogPost: React.FC<BlogPostProps> = ({ data }) => {
                 <header>
                   <Info>
                     <PostCategory>{category}</PostCategory>
-                    <Time dateTime={date}>{date}</Time>
+                    <Time dateTime={date!}>{date}</Time>
                   </Info>
                   <Title>{title}</Title>
                   <Desc>{desc}</Desc>
@@ -133,22 +132,23 @@ const Title = styled.h1`
   }
 `
 
-export const query = graphql`query ($slug: String!) {
-  markdownRemark(fields: {slug: {eq: $slug}}) {
-    html
-    frontmatter {
-      title
-      desc
-      thumbnail {
-        childImageSharp {
-          gatsbyImageData(placeholder: BLURRED, layout: FIXED)
+export const query = graphql`
+  query BlogPostPage($slug: String!) {
+    markdownRemark(fields: { slug: { eq: $slug } }) {
+      html
+      frontmatter {
+        title
+        desc
+        thumbnail {
+          childImageSharp {
+            gatsbyImageData(placeholder: BLURRED, layout: FIXED)
+          }
         }
+        date(formatString: "YYYY-MM-DD")
+        category
       }
-      date(formatString: "YYYY-MM-DD")
-      category
     }
   }
-}
 `
 
 export default BlogPost
